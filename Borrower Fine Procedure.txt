@@ -25,7 +25,7 @@ create procedure B(roll_new int, book_name varchar(20))
      select datediff(curdate(), DOI) into X from Borrower1 where roll_no=roll_new;
     if (X>15&&X<30)
      then
-    -insert into fine1 values(roll_new,curdate(),(X*5));
+    insert into fine1 values(roll_new,curdate(),(X*5));
      end if;
      if(X>30)
      then
