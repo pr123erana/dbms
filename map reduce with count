@@ -1,0 +1,12 @@
+db.things.insert({name:'joe', state:'va'})
+db.things.insert({name:'jane', state:'va'})
+db.things.insert({name:'sally', state:'md'})
+
+var m = function() { emit( this.state, {count:1}); }
+var r = function() (key, values) {
+    var result = { count: 0 }
+    values.forEach(function(value) { result.count++ } );
+    return result;
+}
+db.things.mapReduce(map, reduce, { out: "outtoken" } );
+db.things.outtoken.find().sort({value:-1});  //sort desc order
