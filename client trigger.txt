@@ -11,35 +11,33 @@ insert into client_master values (1, "Venkatesh", 1000), (2, "Raghav", 1200), (3
 
 select * from client_master;
 --------------------  trigger before update --------------------
-drop trigger before_update;
-delimiter $$
-create trigger before_update
-BEFORE UPDATE
+delimiter //
+create trigger after_update
+AFTER UPDATE
 ON client_master FOR EACH ROW
 BEGIN
 insert into client_Audit(c_id, c_name, acc_no) select c_id, c_name, acc_no from client_master where c_id = old.c_id;
 update client_Audit set cause = 'U' where c_id = old.c_id;
-end $$
-delimiter ;
+end;
+
 
 update client_master set c_id = 10 where c_name = "Raghav";
-
+//
 select * from client_master;
 select * from client_Audit;
 
 
 
+
 --------------------  trigger before delete --------------------
-drop trigger before_delete;
-delimiter $$
+delimiter //
 create trigger before_delete
-BEFORE DELETE ON client_master FOR EACH ROW
+AFTER DELETE ON client_master FOR EACH ROW
 
 BEGIN
 insert into client_Audit(c_id, c_name, acc_no) select c_id, c_name, acc_no from client_master where c_id = old.c_id;
 update client_Audit set cause = 'D' where c_id = old.c_id;
-END $$
-delimiter ;
+END;
 
 delete from client_master where c_id = 10;
 
@@ -47,5 +45,5 @@ delete from client_master where c_id = 10;
 select * from client_master;
 select * from client_Audit;
 
-
+//
 
