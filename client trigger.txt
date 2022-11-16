@@ -16,7 +16,7 @@ create trigger after_update
 AFTER UPDATE
 ON client_master FOR EACH ROW
 BEGIN
-insert into client_Audit(c_id, c_name, acc_no) select c_id, c_name, acc_no from client_master where c_id = old.c_id;
+insert into client_Audit values(c_id, c_name, acc_no) select c_id, c_name, acc_no from client_master where c_id = old.c_id;
 update client_Audit set cause = 'U' where c_id = old.c_id;
 end;
 
@@ -35,7 +35,7 @@ create trigger before_delete
 AFTER DELETE ON client_master FOR EACH ROW
 
 BEGIN
-insert into client_Audit(c_id, c_name, acc_no) select c_id, c_name, acc_no from client_master where c_id = old.c_id;
+insert into client_Audit values(c_id, c_name, acc_no) select c_id, c_name, acc_no from client_master where c_id = old.c_id;
 update client_Audit set cause = 'D' where c_id = old.c_id;
 END;
 
