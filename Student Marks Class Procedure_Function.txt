@@ -1,4 +1,4 @@
-DBMS EXP-5
+
 
  create table marks(roll_no int, name varchar(20), total_marks int);
   
@@ -11,10 +11,7 @@ create table result(roll_no int, name varchar(30), class varchar(20));
 
 
  delimiter //
- create procedure proc_result(in marks int,out class 
-     char(20))
-     //
- create procedure proc_result(in marks int,out class char(20))
+ create procedure proc_result1(in marks int,out class char(20))
      begin
     if(marks<1500&&marks>990)
      then
@@ -43,7 +40,7 @@ create table result(roll_no int, name varchar(30), class varchar(20));
      end;
      //
 
- create function final_result3(R1 int)
+ create function final_result(R1 int)
      returns int
      begin
      declare fmarks integer;
@@ -56,5 +53,5 @@ create table result(roll_no int, name varchar(30), class varchar(20));
     end;
     //
 
-select final_result(2);
+select final_result(101);
  
