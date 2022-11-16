@@ -11,7 +11,7 @@ create table result(roll_no int, name varchar(30), class varchar(20));
 
 
  delimiter //
- create procedure proc_result1(in marks int,out class char(20))
+ create procedure proc_result(in marks int,out class char(20))
      begin
     if(marks<1500&&marks>990)
      then
@@ -42,8 +42,11 @@ create table result(roll_no int, name varchar(30), class varchar(20));
 
  create function final_result(R1 int)
      returns int
+     deterministic
      begin
+     
      declare fmarks integer;
+     
      declare grade varchar(20);
      declare stud_name varchar(20);
      select marks.total_marks,marks.name into fmarks,stud_name from marks where marks.roll_no =R1;
