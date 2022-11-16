@@ -1,57 +1,60 @@
-create table Stud_Marks(roll int primary key,name varchar(25) NOT NULL, total_marks int not null);
+DBMS EXP-5
 
-insert into Stud_Marks values(1,"Rahul Mohite", 1400),(4,"Abhishek Awate", 980),(3,"Shahid Kapoor", 825),(9,"Dinesh Kartik", 890),(19,"Eijaz Khan", 950),(24,"Archana Wagh", 625),(48,"Sandip Hooda", 989), (41,"Mandip Singh", 900), (51,"Ruturaj Gaikwad", 1500),(22,"Rameshwar Sarda", 990);
-
-create table Result(rollno int NOT NULL, Name varchar(25) NOT NULL, class varchar(15));
------------------------------------------------------------------
-delimiter $$
-
-drop function if exists findClass$$
-create function findClass(rollno int)
-returns varchar(15)
-deterministic
-
-begin
-
-declare class varchar(15);
-declare mark int;
-
-select total_marks into mark from Stud_Marks where roll = rollno;
-if (mark >= 990 and mark <= 1500) then
-	set class = "DISTINCTION";
-end if;
-if (mark >= 900 and mark <= 989) then
-	set class = "FIRST CLASS";
-end if;
-if (mark >= 825 and mark <= 899) then
-	set class = "zSECOND CLASS";
-end if;
-if (mark < 825) then
-	set class = "FAILED";
-end if;
-return class;
-end $$
-delimiter ;
-
--------------------------EXCEPTION--------------------------------
-delimiter $$
-drop procedure if exists proc_Grade$$
-create procedure proc_Grade(in rn int)
-begin
-    declare sname varchar(25);
-    declare CLASS varchar(15);
-    
-	declare EXIT HANDLER for NOT FOUND
-    BEGIN
-        select roll from Stud_Marks where roll = rn;
-    END;
-    
-	select findClass(rn) into CLASS;
-    select name into sname from Stud_Marks where roll = rn;
-	insert into Result values(rn, sname, CLASS);
-
-end $$
-delimiter ;
+ create table marks(roll_no int, name varchar(20), total_marks int);
+  
 
 
+create table result(roll_no int, name varchar(30), class varchar(20));
 
+
+ insert into marks values(101,'mario',1400),(102,'john',980),(103,'joe',820),(104,'naveen',740),(105,'ashu',640);
+
+
+ delimiter //
+ create procedure proc_result(in marks int,out class 
+     char(20))
+     //
+ create procedure proc_result(in marks int,out class char(20))
+     begin
+    if(marks<1500&&marks>990)
+     then
+     set class='Distincton';
+     end if;
+     if(marks<989&&marks>890)
+     then
+     set class='First Class';
+     end if;
+     if(marks<889&&marks>825)
+     then
+     set class='Higher Second Class';
+     end if;
+     if(marks<824&&marks>750)
+     then
+     set class='Second Class';
+     end if;
+     if(marks<749&&marks>650)
+     then
+     set class='Passed';
+    end if;
+     if(marks<649)
+     then
+     set class='Fail';
+     end if;
+     end;
+     //
+
+ create function final_result3(R1 int)
+     returns int
+     begin
+     declare fmarks integer;
+     declare grade varchar(20);
+     declare stud_name varchar(20);
+     select marks.total_marks,marks.name into fmarks,stud_name from marks where marks.roll_no =R1;
+     call proc_result(fmarks,@grade);
+    insert into result values(R1,stud_name,@grade);
+    return R1;
+    end;
+    //
+
+select final_result(2);
+ 
