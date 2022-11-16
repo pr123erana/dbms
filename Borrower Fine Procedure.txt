@@ -16,31 +16,24 @@ alter table Borrower drop PRIMARY KEY;
 
     
 
-delimiter $$
-drop procedure if exists FineAmt$$
-create procedure FineAmt(in rollno int, in bn varchar(20))
-begin
-   declare amt int default 0;
-   declare dateofi date;
-   declare diff int default 0;
-   select doi into dateofi from Borrower where roll = Roll and nameOfBook = bn;
-   select DATEDIFF(CURDATE(), dateofi) into diff;
-   if diff < 0 then
-      SIGNAL SQLSTATE '45000'
-         set MESSAGE_TEXT = "No. of days can't be negative";
-   end if;
-   if diff > 30 then
-      set amt = diff * 10;
-   end if;
-   if diff >= 15 and diff <=30 then
-      set amt = diff * 5;
-   end if;
-   if amt > 0 then
-      insert into Fine values(rollno, CURDATE(), amt);
-   end if;
-   update Borrower set status = 'R' where roll = rollno and nameOfBook = bn;
-end $$
-
-Delimiter ;
-
-call FineAmt(1, "Computer Networks");
+create procedure B(roll_new int, book_name varchar(20))
+    begin
+     declare X integer;
+    declare continue handler for not found
+     begin
+      select 'NOT FOUND';
+     end;
+     select datediff(curdate(), DOI) into X from borrower where roll_no=roll_new;
+    if (X>15&&X<30)
+     then
+    -insert into fine values(roll_new,curdate(),(X*5));
+     end if;
+     if(X>30)
+     then
+     insert into fine values(roll_new,curdate(),(X*50));
+     end if;
+     update borrower set status='returned' where roll_no=roll_new;
+    end;
+    //
+    
+call B(1, "Computer Networks");
