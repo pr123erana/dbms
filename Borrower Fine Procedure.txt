@@ -2,7 +2,7 @@
 --  use desc table_name command to describe the table
 
 
-create table Borrower1(roll_no int PRIMARY KEY, name varchar(20) NOT NULL, DOI date, name_Of_book varchar(20) NOT NULL, status char);
+create table Borrower1(roll_no int PRIMARY KEY, name varchar(20) NOT NULL, DOI date, name_Of_book varchar(20) NOT NULL, status varchar(30));
 
 create table fine1(roll_no int PRIMARY KEY, date_of_fine date, amount int);
 
