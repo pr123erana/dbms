@@ -12,7 +12,6 @@ insert into Borrower1 values(1, 'Mohan Rao', '2022-06-11', 'Computer Networks', 
 (5, 'Aditya Chauhan', '2022-07-26', 'Game Dev', 'I'),(6, 'Rohit Harkal', '2022-08-11', 
 'Theory Of Computn', 'I'),(7, 'Aditya Patil', '2022-07-25', 'Operating Sys', 'I');
     
-alter table Borrower drop PRIMARY KEY;
 
     
 
@@ -23,7 +22,7 @@ create procedure B(roll_new int, book_name varchar(20))
      begin
       select 'NOT FOUND';
      end;
-     select datediff(curdate(), DOI) into X from borrower where roll_no=roll_new;
+     select datediff(curdate(), DOI) into X from Borrower1 where roll_no=roll_new;
     if (X>15&&X<30)
      then
     -insert into fine1 values(roll_new,curdate(),(X*5));
