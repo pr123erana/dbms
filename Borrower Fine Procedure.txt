@@ -2,11 +2,11 @@
 --  use desc table_name command to describe the table
 
 
-create table Borrower(roll_no int PRIMARY KEY, name varchar(20) NOT NULL, DOI date, name_Of_book varchar(20) NOT NULL, status char);
+create table Borrower1(roll_no int PRIMARY KEY, name varchar(20) NOT NULL, DOI date, name_Of_book varchar(20) NOT NULL, status char);
 
-create table Fine(roll_no int PRIMARY KEY, date_of_fine date, amount int);
+create table fine1(roll_no int PRIMARY KEY, date_of_fine date, amount int);
 
-insert into Borrower values(1, 'Mohan Rao', '2022-06-11', 'Computer Networks', 'I'),
+insert into Borrower1 values(1, 'Mohan Rao', '2022-06-11', 'Computer Networks', 'I'),
 (2, 'Satyam Kalia', '2022-06-13', 'Database Management', 'I'),(3, 'Shiva More', '2022-07-01', 
 'Web Development', 'I'),(4, 'Rohan Indani', '2022-05-09', 'App Development', 'I'),
 (5, 'Aditya Chauhan', '2022-07-26', 'Game Dev', 'I'),(6, 'Rohit Harkal', '2022-08-11', 
@@ -26,13 +26,13 @@ create procedure B(roll_new int, book_name varchar(20))
      select datediff(curdate(), DOI) into X from borrower where roll_no=roll_new;
     if (X>15&&X<30)
      then
-    -insert into fine values(roll_new,curdate(),(X*5));
+    -insert into fine1 values(roll_new,curdate(),(X*5));
      end if;
      if(X>30)
      then
-     insert into fine values(roll_new,curdate(),(X*50));
+     insert into fine1 values(roll_new,curdate(),(X*50));
      end if;
-     update borrower set status='returned' where roll_no=roll_new;
+     update Borrower1 set status='returned' where roll_no=roll_new;
     end;
     //
     
